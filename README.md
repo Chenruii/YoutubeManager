@@ -8,6 +8,7 @@ A connecteduseristheonlyonewhocanmanagehislistofcontents.
 TheplatformcanbemanagedbyanAdminona                                               
 specific webpage to manage all users (edit/delete), contents (edit/delete) and categories (edit/delete).  
 
+
 TECH
 
 As Visitor (Anonymous)  
