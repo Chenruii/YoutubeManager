@@ -14,8 +14,8 @@
 
         {% for user in users %}
             <h1>{{ user.firstname }}</h1>
-            {% for article in user.articles %}
-                <p>{{ article.title }}</p>
+            {% for video in user.videos %}
+                <p>{{ video.title }}</p>
             {% endfor %}
         {% endfor %}
     </div>

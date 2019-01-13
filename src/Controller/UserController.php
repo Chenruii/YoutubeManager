@@ -4,9 +4,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
+
 
 class UserController extends AbstractController
 {
@@ -39,5 +41,23 @@ class UserController extends AbstractController
 
 
         ));
+    }
+    /**
+     * @Route("/user", name="liste_user")
+     */
+    public function liste(UserRepository $userRepository)
+    {
+        return $this->render( 'home/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/user/{byFirstname}", name="user_firstname")
+     * @ParamConverter("user", options={"mapping"={"byFirstname"="firstname"}})
+     */
+    public function firstname(Request $request, UserRepository $userRepository, User $user)
+    {
+        return $this->render('home/index.html.twig');
     }
 }
