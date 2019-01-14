@@ -18,6 +18,7 @@ class VideoType extends AbstractType
             ->add('url')
             ->add('description')
             ->add('Category')
+            ->add('user',userType::class)
         ;
     }
 
