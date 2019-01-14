@@ -6,12 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -54,9 +55,15 @@ class User
      */
     private $videos;
 
+    /**
+     *  @ORM\Column(type="simple_array")
+     */
+    private $roles =[];
+
     public function __construct()
     {
         $this->videos = new ArrayCollection();
+        $this->roles = array('ROLE_USER');
     }
 
     public function getId(): ?int
@@ -141,7 +148,6 @@ class User
 
         return $this;
     }
-
     public function removeVideo(Video $video): self
     {
         if ($this->videos->contains($video)) {
@@ -153,5 +159,37 @@ class User
         }
 
         return $this;
+    }
+
+    public  function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public  function  setRoles($roles)
+    {
+        $this->roles =$roles;
+        return $this;
+    }
+
+
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername():string
+    {
+        return $this->email;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     */
+    public function eraseCredentials(): void
+    {
+
     }
 }
