@@ -29,7 +29,7 @@ class UserController extends AbstractController
             $entityManager->flush();
             // type can be anything, for example : notice, warning, error...
             $this->addFlash('notice', 'Your changes were saved!');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('user');
 
         }
 
@@ -38,8 +38,6 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', array(
             'form' => $form->createView(),
             'users' =>$users,
-
-
         ));
     }
     /**
@@ -54,7 +52,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/{byFirstname}", name="user_firstname")
-     * @ParamConverter("user", options={"mapping"={"byFirstname"="firstname"}})
+     *
      */
     public function firstname(Request $request, UserRepository $userRepository, User $user)
     {
