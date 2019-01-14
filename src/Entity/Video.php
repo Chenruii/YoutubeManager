@@ -46,6 +46,11 @@ class Video
      */
     private $Category;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +124,18 @@ class Video
     public function setCategory(?string $Category): self
     {
         $this->Category = $Category;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
