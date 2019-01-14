@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil {% endblock %}
+
+{% block body %}
+
+    <div class="content">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <p>Firstname: {{ app.user.firstname }}</p>
+            <p>Lastname: {{ app.user.lastname }}</p>
+
+
+        {% else %}
+            <p>Welcome Anonymous</p>
+        {% endif %}
+
+        <h1>Update ✅</h1>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+
+
+
+    </div>
+
+    </div>
+{% endblock %}
