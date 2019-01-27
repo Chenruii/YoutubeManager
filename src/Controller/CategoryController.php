@@ -56,7 +56,7 @@ class CategoryController extends AbstractController
     public function details(int $id, categoryRepository $categoryRepository)
     {
         $category = $categoryRepository->find($id);
-        return $this->render( 'category/detail.html.twig', [
+        return $this->render( 'category/detail_category.html.twig', [
             'category' => $category,
 
 
@@ -91,7 +91,7 @@ class CategoryController extends AbstractController
             $this->addFlash('notice', 'Your category is update!');
             return $this->redirectToRoute('list_categories');
         }
-        return $this->render('category/edit.html.twig', array(
+        return $this->render('category/edit_category.html.twig', array(
             'form' => $form->createView(),
             'category' => $category,
         ));

@@ -65,7 +65,7 @@ class VideoController extends AbstractController
     public function details(int $id, VideoRepository $videoRepository)
     {
         $video = $videoRepository->find($id);
-        return $this->render( 'video/detail.html.twig', [
+        return $this->render( 'video/detail_video.html.twig', [
             'video' => $video,
 
 
@@ -100,7 +100,7 @@ class VideoController extends AbstractController
             $this->addFlash('notice', 'Your video is update!');
             return $this->redirectToRoute('list_videos');
         }
-        return $this->render('video/edit.html.twig', array(
+        return $this->render('video/edit_video.html.twig', array(
             'form' => $form->createView(),
             'video' => $video,
         ));
