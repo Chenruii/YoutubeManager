@@ -5,9 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -22,24 +21,25 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @ORM\Column(unique=true)
      * @Assert\Email()
      * @ORM\Column(type="string", length=255)
      */
     private $email;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $password;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
@@ -51,20 +51,15 @@ class User implements UserInterface
     private $birthday;
 
     /**
+     * @ORM\Column(type="simple_array")
+     */
+    private $roles = [];
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="user")
      */
     private $videos;
 
-    /**
-     *  @ORM\Column(type="simple_array")
-     */
-    private $roles =[];
-
-    public function __construct()
-    {
-        $this->videos = new ArrayCollection();
-        $this->roles = array('ROLE_USER');
-    }
 
     public function getId(): ?int
     {
@@ -88,11 +83,9 @@ class User implements UserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     public function getFirstname(): ?string
@@ -131,6 +124,45 @@ class User implements UserInterface
         return $this;
     }
 
+
+    public function getVideo(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+        $this->roles = array('ROLE USER');
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public  function setRoles ($roles)
+    {
+        $this->roles =$roles;
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+
+    public function eraseCredentials()
+    {
+
+    }
+
     /**
      * @return Collection|Video[]
      */
@@ -148,6 +180,7 @@ class User implements UserInterface
 
         return $this;
     }
+
     public function removeVideo(Video $video): self
     {
         if ($this->videos->contains($video)) {
@@ -159,37 +192,5 @@ class User implements UserInterface
         }
 
         return $this;
-    }
-
-    public  function getRoles()
-    {
-        return $this->roles;
-    }
-
-    public  function  setRoles($roles)
-    {
-        $this->roles =$roles;
-        return $this;
-    }
-
-
-
-    public function getSalt()
-    {
-        return null;
-    }
-
-    public function getUsername():string
-    {
-        return $this->email;
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     */
-    public function eraseCredentials(): void
-    {
-
     }
 }

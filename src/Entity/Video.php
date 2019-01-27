@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
 class Video
@@ -17,22 +20,30 @@ class Video
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=false)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="datetime")
+     * @ORM\Column(type="text", nullable=false)
      */
     private $createdAt;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=false)
      */
     private $published;
 
     /**
+     * @Assert\Url
      * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=false)
      */
     private $url;
 
@@ -41,15 +52,17 @@ class Video
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $Category;
+    private $category;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")
+    /**@ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
+
+    public function __construct()
+    {
+        $this->category = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,15 +141,31 @@ class Video
         return $this;
     }
 
-    public function getUser(): ?User
+    public function addCategory(Category $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->category->contains($category)) {
+            $this->category->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    public function getUser()
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser($user)
     {
         $this->user = $user;
-
-        return $this;
     }
 }
