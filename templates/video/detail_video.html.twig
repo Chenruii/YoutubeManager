@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="content">
+
+        <h1>Video</h1>
+        {{ video.id }} - {{ video.title }}
+
+        <a href="{{ path('edit_video', {'id': video.id}) }}">Edit</a>
+
+    </div>
+{% endblock %}
