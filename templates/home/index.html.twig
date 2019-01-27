@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Connexion!{% endblock %}
 
 {% block body %}
 
-    <div>
-        {% for users in user %}
-            <h1>{{ user.firstname }}</h1>
-            {% for video in user.videos %}
-                <p>{{ video.title }}</p>
-            {% endfor %}
+    <div class="content">
+
+
+        {{ path('user',{'id':user.id}) }}
+        {% for video in videos %}
+            {{ include('video/video_details.html.twig') }}
         {% endfor %}
+
     </div>
 {% endblock %}

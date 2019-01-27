@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,30 @@ class HomeController extends AbstractController
     public function user(UserRepository $userRepository)
     {
         return $this->render( 'home/index.html.twig', [
-            'videos' => $userRepository->findAll(),
+            'users' => $userRepository->findAll(),
+
+        ]);
+    }
+
+    /**
+     * @Route("/category", name="category")
+     */
+    public function category(CategoryRepository $videoRepository)
+    {
+        return $this->render( 'category/index.html.twig', [
+            'categories' => $videoRepository->findAll(),
+
+        ]);
+    }
+
+    /**
+     * @Route("/", name="list_categories")
+     *
+     */
+    public function categories(CategoryRepository $videoRepository)
+    {
+        return $this->render( 'category/index.html.twig', [
+            'categories' => $videoRepository->findAll(),
 
         ]);
     }

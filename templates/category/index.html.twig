@@ -8,7 +8,7 @@
 
         <ul>
             {% for categories in category %}
-                <a href="{{ path('details_categorys', { 'id': category.id }) }}">{{ category.title }}</a>
+                <a href="{{ path('details_categories', { 'id': category.id }) }}">{{ category.title }}</a>
                 <br>
 
             {% endfor %}

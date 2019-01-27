@@ -3,19 +3,23 @@
 {% block title %}Hello VideoController!{% endblock %}
 
 {% block body %}
+
+
     <div class="content">
         <h1>Video</h1>
 
         <ul>
-            {% for videos in video %}
+            {% for video in videos %}
                 <a href="{{ path('details_videos', { 'id': video.id }) }}">{{ video.title }}</a>
-                <li>{{ video.url }}</li>
+                <li>{{ video.content }}</li>
                 <br>
-
+                {% if video.user %}
+                    <li>{{ video.user.id }}</li>
+                    <li>{{ video.user.firstname }}</li>
+                {% endif %}
             {% endfor %}
         </ul>
 
 
     </div>
-
 {% endblock %}
