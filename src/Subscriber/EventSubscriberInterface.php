@@ -6,10 +6,10 @@
  * Time: 19:32
  */
 
-namespace App\Subscriber;
-
-
-class EventSubscriberInterface
-{
-
-}
+//namespace App\Subscriber;
+//
+//
+//class EventSubscriberInterface
+//{
+//
+//}
