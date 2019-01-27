@@ -72,7 +72,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    /** * @Route("/user/remove/{id}", name="remove_video")
+    /** @Route("/user/remove/{id}", name="remove_video")
      *  @ParamConverter("video", options={"mapping"={"id"="id"}})
      */
     public function remove(Video $video, EntityManagerInterface $entityManager)

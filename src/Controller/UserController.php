@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 
@@ -52,6 +53,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/{byFirstname}", name="user_firstname")
+     * @ParamConverter("user", options={"mapping"={"byFirstname"="firstname"}})
      *
      */
     public function firstname(Request $request, UserRepository $userRepository, User $user)
