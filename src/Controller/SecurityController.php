@@ -46,9 +46,9 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('notice', 'Register valited');
-            return $this->redirectToRoute('login');
+            /*return $this->redirectToRoute('login');*/
 
-//            return $this->redirectToRoute('register');
+            return $this->redirectToRoute('register');
         }
         return $this->render('security/register.html.twig', [
             'form' => $form->createView()

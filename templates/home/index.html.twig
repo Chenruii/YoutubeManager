@@ -7,10 +7,14 @@
     <div class="content">
 
 
-        {{ path('user',{'id':user.id}) }}
-        {% for video in videos %}
-            {{ include('video/video_details.html.twig') }}
-        {% endfor %}
+        {#{{ path('user',{'id':user.id}) }}#}
+        {#{% for video in videos %}#}
+            {#{{ include('video/video_details.html.twig') }}#}
+        {#{% endfor %}#}
+
+
+        <h1>Video</h1>
+
 
     </div>
 {% endblock %}

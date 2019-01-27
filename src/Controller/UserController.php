@@ -7,7 +7,6 @@ use App\Entity\Video;
 use App\Form\UserType;
 use App\Form\VideoType;
 use App\Repository\UserRepository;
-use App\Repository\VideoRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

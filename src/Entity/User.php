@@ -124,51 +124,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function __construct()
-    {
-        $this->videos = new ArrayCollection();
-        $this->roles = array('ROLE USER');
-    }
-
-    /**
-     * @return Collection|Video[]
-     */
-    public function getVideos(): Collection
-    {
-        return $this->videos;
-    }
-
-    public function addVideos(Video $video): self
-    {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
-            $video->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVideos(Video $video): self
-    {
-        if ($this->videos->contains($video)) {
-            $this->videos->removeElement($video);
-            // set the owning side to null (unless already changed)
-            if ($video->getUser() === $this) {
-                $video->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getRoles()
     {
         return $this->roles;
     }
 
-    public  function setRoles ($roles)
+    public function setRoles($roles)
     {
-        $this->roles =$roles;
+        $this->roles = $roles;
         return $this;
     }
 
@@ -188,10 +151,16 @@ class User implements UserInterface
 
     }
 
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+        $this->roles = array('ROLE USER');
+    }
+
     /**
      * @return Collection|Video[]
      */
-    public function getVideo(): Collection
+    public function getVideos(): Collection
     {
         return $this->videos;
     }
