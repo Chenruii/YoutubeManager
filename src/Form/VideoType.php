@@ -18,7 +18,11 @@ class VideoType extends AbstractType
             ->add('url')
             ->add('description')
             ->add('Category')
-            ->add('user',userType::class)
+            ->add('user', EntityType::class, [
+                'class'  => User::class,
+                'choice label'  => 'firsname',
+            ])
+            ->add('submit',SubmitType::class)
         ;
     }
 
