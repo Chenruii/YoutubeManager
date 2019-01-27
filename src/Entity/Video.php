@@ -21,7 +21,7 @@ class Video
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="5")
      * @ORM\Column(type="text", nullable=false)
      */
     private $title;
@@ -35,7 +35,7 @@ class Video
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean", length=255)
      * @ORM\Column(type="text", nullable=false)
      */
     private $published;
