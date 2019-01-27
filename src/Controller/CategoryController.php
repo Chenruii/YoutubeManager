@@ -6,8 +6,9 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -25,6 +26,31 @@ class CategoryController extends AbstractController
     }
 
     /**
+     * @Route("/category", name="category")
+     */
+    public function category(CategoryRepository $videoRepository)
+    {
+        return $this->render( 'category/index.html.twig', [
+            'videos' => $videoRepository->findAll(),
+
+        ]);
+    }
+
+    /**
+     * @Route("/", name="list_categories")
+     *
+     */
+    public function categories(CategoryRepository $videoRepository)
+    {
+        return $this->render( 'category/index.html.twig', [
+            'videos' => $videoRepository->findAll(),
+
+        ]);
+    }
+
+
+
+    /**
      * @Route("/categories/{id}", name="details_categories")
      */
     public function details(int $id, categoryRepository $categoryRepository)
@@ -34,7 +60,7 @@ class CategoryController extends AbstractController
             'category' => $category,
 
 
-        ]); 
+        ]);
     }
 
     /** @Route("/user/remove/{id}", name="remove_category")
@@ -54,7 +80,7 @@ class CategoryController extends AbstractController
      */
     public function update(Request $request, category $category)
     {
-        $form = $this->createForm(categoryType::class, $category);
+        $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {

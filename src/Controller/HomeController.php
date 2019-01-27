@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,4 +31,17 @@ class HomeController extends AbstractController
             'user' => 'user_id',
         ]);
     }
+
+
+    /**
+     * @Route("/user", name="user")
+     */
+    public function user(UserRepository $userRepository)
+    {
+        return $this->render( 'home/index.html.twig', [
+            'videos' => $userRepository->findAll(),
+
+        ]);
+    }
+
 }
