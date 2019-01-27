@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 
 
@@ -52,6 +55,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/{byFirstname}", name="user_firstname")
+     * @ParamConverter("user", options={"mapping"={"byFirstname"="firstname"}})
      *
      */
     public function firstname(Request $request, UserRepository $userRepository, User $user)

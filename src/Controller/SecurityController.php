@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\User;
-use App\Form\VideoType;
+use App\Form\LoginUserType;
+use App\Form\ProfileUserType;
 use App\Form\RegisterUserType;
+use App\Form\VideoType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Doctrine\ORM\EntityManagerInterface;
 
 class SecurityController extends AbstractController
 {
@@ -23,20 +26,27 @@ class SecurityController extends AbstractController
             'controller_name' => 'SecurityController',
         ]);
     }
+
+    /**
+     * @Route("/register", name="register")
+     */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
+
         $form = $this->createForm(RegisterUserType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
             $this->addFlash('notice', 'Register valited');
-            return $this->redirectToRoute('login');
+            /*return $this->redirectToRoute('login');*/
 
             return $this->redirectToRoute('register');
         }
@@ -44,12 +54,14 @@ class SecurityController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
     /**
      * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
         $user = new User();
+
         $form = $this->createForm(LoginUserType::class, $user);
         return $this->render('security/login.html.twig', [
             'error' => $authenticationUtils->getLastAuthenticationError(),
@@ -63,8 +75,10 @@ class SecurityController extends AbstractController
     public function profile(Request $request,EntityManagerInterface $entityManager,UserRepository $userRepository)
     {
         $user = $this->getUser();
+
         $form = $this->createForm(ProfileUserType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
@@ -74,7 +88,6 @@ class SecurityController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
-
 
     /**
      * @Route("/user/edit/{id}")
@@ -89,7 +102,7 @@ class SecurityController extends AbstractController
                 'No user found for id '.$id
             );
         }
-        $user->setFirstname('New user name!');
+        $user->setFirstname('New Video title!');
         $entityManager->flush();
         $form = $this->createForm(VideoType::class, $user);
         return $this->redirectToRoute('user_view', [
@@ -98,5 +111,5 @@ class SecurityController extends AbstractController
         ]);
     }
 
-}
 
+}
