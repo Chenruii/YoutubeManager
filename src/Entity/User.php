@@ -57,6 +57,10 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="user")
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Video", inversedBy="categories")
+     * @var \Doctrine\Common\Collections\Collection|Video[]
+     *
      */
     private $videos;
 

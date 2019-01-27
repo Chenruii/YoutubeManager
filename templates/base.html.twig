@@ -144,6 +144,7 @@
                         <li><a href="{{ path('list_videos') }}">Video</a></li>
                         <li><a href="{{ path('user') }}">User</a></li>
                         <li><a href="{{ path('register') }}">Register</a></li>
+
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li><a href="{{ path('profile') }}">Profil</a></li>
                             <li><a href="{{ path('admin') }}">Admin</a></li>

@@ -55,6 +55,17 @@ class Video
     private $description;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="video")
+     * @ORM\JoinTable(
+     *  name="video_category",
+     *  joinColumns={
+     * @ORM\JoinColumn(name="video_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     * *@ORM\JoinColumn(name="category_id",referencedColumnName="id")
+     *  }
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @var ArrayCollection
      */
     private $categories;

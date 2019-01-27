@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\UserRegisteredEvent;
 use App\Form\LoginUserType;
 use App\Form\ProfileUserType;
 use App\Form\RegisterUserType;
@@ -10,6 +11,7 @@ use App\Form\VideoType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -27,33 +29,57 @@ class SecurityController extends AbstractController
         ]);
     }
 
+//    /**
+//     * @Route("/register", name="register")
+//     */
+//    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+//    {
+//        $user = new User();
+//
+//        $form = $this->createForm(RegisterUserType::class, $user);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+//            $user->setPassword($password);
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($user);
+//            $entityManager->flush();
+//
+//            $this->addFlash('notice', 'Register valited');
+//            /*return $this->redirectToRoute('login');*/
+//
+//            return $this->redirectToRoute('register');
+//        }
+//        return $this->render('security/register.html.twig', [
+//            'form' => $form->createView()
+//        ]);
+//    }
+
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EventDispatcherInterface $eventDispatcher)
     {
         $user = new User();
-
-        $form = $this->createForm(RegisterUserType::class, $user);
+        $form = $this->createForm(RegisterUserType:: class, $user);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
-            $this->addFlash('notice', 'Register valited');
-            /*return $this->redirectToRoute('login');*/
-
-            return $this->redirectToRoute('register');
+            $this->addFlash('notice', 'Your changes were saved!');
+            $event = new UserRegisteredEvent($user);
+            $eventDispatcher->dispatch(UserRegisteredEvent::NAME,$event);
+            return $this->redirectToRoute('home');
         }
-        return $this->render('security/register.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
+
+
 
     /**
      * @Route("/login", name="login")
