@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Collection;
 
 /**
  *
+ * @property  Category
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
 class Video
@@ -52,17 +54,16 @@ class Video
      */
     private $description;
 
-    private $category;
+    /**
+     * @var ArrayCollection
+     */
+    private $categories;
 
     /**@ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
-    public function __construct()
-    {
-        $this->category = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -129,35 +130,46 @@ class Video
         return $this;
     }
 
-    public function getCategory(): ?string
+
+    public function __construct()
     {
-        return $this->Category;
+        $this->categoryie= new ArrayCollection();
+        $this->roles =array('ROLE_USER');
     }
 
-    public function setCategory(?string $Category): self
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
     {
-        $this->Category = $Category;
-
-        return $this;
+        return $this->categories;
     }
 
-    public function addCategory(Category $category): self
-    {
-        if (!$this->category->contains($category)) {
-            $this->category[] = $category;
-        }
 
-        return $this;
+    public function addCategories(Category $category): self
+{
+    if (!$this->categories->contains($category)) {
+        $this->categories[] = $category;
+        $category->setUser($this);
     }
+
+    return $this;
+}
 
     public function removeCategory(Category $category): self
     {
-        if ($this->category->contains($category)) {
-            $this->category->removeElement($category);
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            // set the owning side to null (unless already changed)
+            if ($category->getUser() === $this) {
+                $category->setUser(null);
+            }
         }
 
         return $this;
     }
+
+
 
     public function getUser()
     {

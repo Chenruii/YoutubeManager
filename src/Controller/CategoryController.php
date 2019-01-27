@@ -96,4 +96,6 @@ class CategoryController extends AbstractController
             'category' => $category,
         ));
     }
+
+
 }
