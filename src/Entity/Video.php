@@ -36,10 +36,10 @@ class Video
     private $createdAt;
 
     /**
-     * @Assert\NotBlank()
+     *
      * @ORM\Column(type="boolean")
      */
-    private $published;
+   /* private $published;
 
     /**
      * @Assert\Url
