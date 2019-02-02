@@ -28,7 +28,9 @@ class Category
      */
     private $description;
 
-
+    /*
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="category")
+     */
     private $videos;
 
     public function getId(): ?int

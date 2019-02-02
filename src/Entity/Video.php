@@ -37,9 +37,9 @@ class Video
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="boolean", options={"default" : 1})
+     * @ORM\Column(type="boolean")
      */
-    private $published =true;
+    private $published;
 
     /**
      * @Assert\Url
@@ -54,9 +54,9 @@ class Video
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="videos")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="videos")
      */
-    private $categories;
+    private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")

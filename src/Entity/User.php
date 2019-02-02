@@ -56,11 +56,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="user")
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Video", inversedBy="categories")
-     * @var \Doctrine\Common\Collections\Collection|Video[]
-
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="user")
      */
     private $videos;
 
@@ -157,8 +153,9 @@ class User implements UserInterface
 
     public function __construct()
     {
+        $this->video = new ArrayCollection();
         $this->videos = new ArrayCollection();
-        $this->roles = array('ROLE USER');
+        $this->roles = array('ROLE_USER');
     }
 
     /**
