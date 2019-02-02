@@ -60,7 +60,7 @@ class User implements UserInterface
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Video", inversedBy="categories")
      * @var \Doctrine\Common\Collections\Collection|Video[]
-     *
+
      */
     private $videos;
 

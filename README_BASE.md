@@ -24,3 +24,5 @@ cp .env.dist .env
 docker-compose up -d
 docker-compose exec --user=application web composer install
 ```
+
+

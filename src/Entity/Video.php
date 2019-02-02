@@ -37,10 +37,9 @@ class Video
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="boolean", length=255)
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="boolean", options={"default" : 1})
      */
-    private $published;
+    private $published =true;
 
     /**
      * @Assert\Url
@@ -55,23 +54,12 @@ class Video
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="video")
-     * @ORM\JoinTable(
-     *  name="video_category",
-     *  joinColumns={
-     * @ORM\JoinColumn(name="video_id", referencedColumnName="id")
-     *  },
-     *  inverseJoinColumns={
-     * *@ORM\JoinColumn(name="category_id",referencedColumnName="id")
-     *  }
-     * )
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="videos")
      */
     private $categories;
 
-    /**@ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")
-     * @ORM\JoinColumn(nullable=true)
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="videos")
      */
     private $user;
 
@@ -93,7 +81,7 @@ class Video
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -101,20 +89,17 @@ class Video
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
-    public function getPublished(): ?string
+    public function getPublished()
     {
         return $this->published;
     }
 
-    public function setPublished(string $published): self
+    public function setPublished(string $published): void
     {
         $this->published = $published;
 
-        return $this;
     }
 
     public function getUrl(): ?string
@@ -145,25 +130,22 @@ class Video
     public function __construct()
     {
         $this->categoryie= new ArrayCollection();
-        $this->roles =array('ROLE_USER');
     }
 
     /**
      * @return Collection|Category[]
      */
-    public function getCategories(): Collection
+    public function getCategory(): Collection
     {
         return $this->categories;
     }
 
 
-    public function addCategories(Category $category): self
+    public function addCategory(Category $category): self
 {
-    if (!$this->categories->contains($category)) {
-        $this->categories[] = $category;
-        $category->setUser($this);
+    if (!$this->category->contains($category)) {
+        $this->category[] = $category;
     }
-
     return $this;
 }
 
@@ -172,9 +154,9 @@ class Video
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
             // set the owning side to null (unless already changed)
-            if ($category->getUser() === $this) {
-                $category->setUser(null);
-            }
+//            if ($category->getUser() === $this) {
+//                $category->setUser(null);
+//            }
         }
 
         return $this;

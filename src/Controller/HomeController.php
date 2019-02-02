@@ -33,7 +33,6 @@ class HomeController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/user", name="user")
      */
