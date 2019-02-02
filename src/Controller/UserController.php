@@ -18,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user")
+     * @Route("/user", name="user")
      */
     public function index(Request $request, UserRepository $userRepository)
     {
@@ -32,12 +32,11 @@ class UserController extends AbstractController
             $entityManager->persist($user);    // file attente
             $entityManager->flush();            // execute file attente
             // type can be anything, for example : notice, warning, error...
-            $this->addFlash('notice', 'Your changes were saved!');
+            //$this->addFlash('notice', 'Your changes were saved!');
             return $this->redirectToRoute('home');
         }
 
         $users = $userRepository->findAll() ;
-
         return $this->render('user/index.html.twig', array(
             'form' => $form->createView(),
             'users' =>$users,

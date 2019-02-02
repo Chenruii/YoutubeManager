@@ -16,7 +16,6 @@ class CreateAdminCommand extends Command
 {
     protected static $defaultName = 'app:create-admin';
 
-
     private $entityManager;
     private $encoder;
 
@@ -45,9 +44,13 @@ class CreateAdminCommand extends Command
         $io -> note(sprintf('Create a user for email: %s', $email));
 
         $user = new User();
+        $user->setFirstname('Admin');
+        $user->setLastname('Admin');
         $user->setEmail($email);
+
         $passwordEncoded = $this->encoder->encodePassword($user, $password);
-        $user->setPassword($passwordEncoded);   $user->setRoles(['ROLE_USER','ROLE_ADMIN']);
+        $user->setPassword($passwordEncoded);
+        $user->setRoles(['ROLE_ADMIN']);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
