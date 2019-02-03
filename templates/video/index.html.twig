@@ -9,17 +9,67 @@
         <h1>Video</h1>
 
         <ul>
-            {% for video in videos %}
-                <a href="{{ path('details_videos', { 'id': video.id }) }}">{{ video.title }}</a>
-                <li>{{ video.content }}</li>
-                <br>
-                {% if video.user %}
-                    <li>{{ video.user.id }}</li>
-                    <li>{{ video.user.firstname }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+            {#{% for video in videos %}#}
+                {#<a href="{{ path('details_videos', { 'id': video.id }) }}">{{ video.title }}</a>#}
+                {#<li>{{ video.content }}</li>#}
+                {#<br>#}
+                {#{% if video.user %}#}
+                    {#<li>{{ video.user.id }}</li>#}
+                    {#<li>{{ video.user.firstname }}</li>#}
+                {#{% endif %}#}
+            {#{% endfor %}#}
 
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+
+            <div>
+                {{ form_label(form.title) }}
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.title) }}
+            </div>
+
+            <div>
+                {{ form_label(form.Url) }}
+                {{ form_errors(form.Url) }}
+                {{ form_widget(form.Url, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.Url) }}
+            </div>
+            <div>
+                {{ form_label(form.category) }}
+                {{ form_errors(form.category) }}
+                {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.category) }}
+            </div>
+            <div>
+                {{ form_label(form.user) }}
+                {{ form_errors(form.user) }}
+                {{ form_widget(form.user, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.user) }}
+            </div>
+            <div>
+                {{ form_label(form.createdAt) }}
+                {{ form_errors(form.createdAt) }}
+                {{ form_widget(form.createdAt, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.createdAt) }}
+            </div>
+            <div>
+                {{ form_label(form.description) }}
+                {{ form_errors(form.description) }}
+                {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.description) }}
+            </div>
+            <div>
+                {{ form_label(form.isActive) }}
+                {{ form_errors(form.isActive) }}
+                {{ form_widget(form.isActive, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_help(form.isActive) }}
+            </div>
+            <div>
+                {{ form_widget(form.submit) }}
+            </div>
+            {{ form_end(form) }}
+        </ul>
 
     </div>
 {% endblock %}

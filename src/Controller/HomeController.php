@@ -18,7 +18,7 @@ class HomeController extends AbstractController
      */
     public function home(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/video.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
      */
     public function users(Request $request,User $user)
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/video.html.twig', [
             'user' => 'user_id',
         ]);
     }
@@ -38,7 +38,7 @@ class HomeController extends AbstractController
      */
     public function user(UserRepository $userRepository)
     {
-        return $this->render( 'home/index.html.twig', [
+        return $this->render( 'home/video.html.twig', [
             'users' => $userRepository->findAll(),
 
         ]);
@@ -49,7 +49,7 @@ class HomeController extends AbstractController
      */
     public function category(CategoryRepository $videoRepository)
     {
-        return $this->render( 'category/index.html.twig', [
+        return $this->render( 'category/video.html.twig', [
             'categories' => $videoRepository->findAll(),
 
         ]);
@@ -61,7 +61,7 @@ class HomeController extends AbstractController
      */
     public function categories(CategoryRepository $videoRepository)
     {
-        return $this->render( 'category/index.html.twig', [
+        return $this->render( 'category/video.html.twig', [
             'categories' => $videoRepository->findAll(),
 
         ]);

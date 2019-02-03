@@ -64,6 +64,9 @@ class Video
     private $user;
 
 
+    private $published;
+
+    private $videos;
     public function getId(): ?int
     {
         return $this->id;
@@ -129,7 +132,7 @@ class Video
 
     public function __construct()
     {
-        $this->categoryie= new ArrayCollection();
+        $this->categories= new ArrayCollection();
     }
 
     /**
@@ -137,7 +140,7 @@ class Video
      */
     public function getCategory(): Collection
     {
-        return $this->categories;
+        return $this->category;
     }
 
 

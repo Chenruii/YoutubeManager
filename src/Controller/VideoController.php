@@ -8,29 +8,38 @@ use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-
+/*
+ * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
+ */
 
 class VideoController extends AbstractController
 {
     /**
      * @Route("/video", name="video")
      */
-    public function index()
+    public function index(Request $request, LoggerInterface $logger)
     {
-
+        $user = new Video();
+        if (in_array('ROLE_ADMIN',$this->getUser()->getRoles())){
+            $form = $this->createForm(VideoType::class, $user);
+        }
+        else{
+            $form = $this->createForm(VideoType::class, $user);
+        }
         $em = $this->getDoctrine()->getManager();
 
         // get all entities from Video table
         $videos = $em->getRepository(Video:: class)->findAll();
 
-        return $this->render('video/index.html.twig', [
+        return $this->render('video/video.html.twig', [
             'controller_name' => 'VideoController',
-            'videos' => '$videos',
+            'video' => '$videos',
 
         ]);
     }
@@ -40,7 +49,7 @@ class VideoController extends AbstractController
      */
     public function video(VideoRepository $videoRepository)
     {
-        return $this->render( 'video/index.html.twig', [
+        return $this->render( 'video/video.html.twig', [
             'videos' => $videoRepository->findAll(),
 
         ]);
@@ -52,7 +61,7 @@ class VideoController extends AbstractController
      */
     public function videos(VideoRepository $videoRepository)
     {
-        return $this->render( 'video/index.html.twig', [
+        return $this->render( 'video/video.html.twig', [
             'videos' => $videoRepository->findAll(),
 
         ]);

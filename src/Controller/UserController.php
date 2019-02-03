@@ -8,12 +8,20 @@ use App\Form\UserType;
 use App\Form\VideoType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-
+/**
+ * Class UserController
+ * @package App\Controller
+ *
+ *  User can see /create video/user
+ *  edit video / user
+ *  remove video
+ */
 
 class UserController extends AbstractController
 {
@@ -22,7 +30,7 @@ class UserController extends AbstractController
      */
     public function index(Request $request, UserRepository $userRepository)
     {
-        $user  = new User();
+        $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -36,10 +44,10 @@ class UserController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $users = $userRepository->findAll() ;
-        return $this->render('user/index.html.twig', array(
+        $users = $userRepository->findAll();
+        return $this->render('user/video.html.twig', array(
             'form' => $form->createView(),
-            'users' =>$users,
+            'users' => $users,
         ));
     }
 
@@ -48,7 +56,7 @@ class UserController extends AbstractController
      */
     public function user(UserRepository $userRepository)
     {
-        return $this->render( 'video/index.html.twig', [
+        return $this->render('video/video.html.twig', [
             'videos' => $userRepository->findAll(),
 
         ]);
@@ -60,21 +68,23 @@ class UserController extends AbstractController
      */
     public function users(UserRepository $userRepository)
     {
-        return $this->render( 'video/index.html.twig', [
+        return $this->render('video/video.html.twig', [
             'videos' => $userRepository->findAll(),
 
         ]);
     }
 
 
-
     /**
      * @Route("/user", name="list_user")
      */
-    public function liste(UserRepository $userRepository,User $user)
+    public function liste(Request $request, EntityManager $entityManager)
     {
-        return $this->render( 'home/index.html.twig',array(
-            'users' => $userRepository->findAll(),
+        $user = $this->getUser();
+        $videos = $this->getDoctrine()->getRepository(Video::class)->findBy(array('user' => $user));
+
+        return $this->render('home/video.html.twig', array(
+            'videos' => $videos,
         ));
     }
 
@@ -85,7 +95,7 @@ class UserController extends AbstractController
      */
     public function firstname(Request $request, UserRepository $userRepository, User $user)
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('home/video.html.twig');
     }
 
     /**
@@ -94,7 +104,7 @@ class UserController extends AbstractController
     public function remove(User $user, EntityManager $entityManager)
     {
         $videos = $user->getVideos();
-        foreach ($videos as $video){
+        foreach ($videos as $video) {
             $video->setUser(null);
         }
         $entityManager->remove($user);
@@ -106,22 +116,25 @@ class UserController extends AbstractController
      * @Route("/videos/edit/{id}", name="edit_video")
      * @ParamConverter("video", options={"mapping"={"id"="id"}})
      */
-    public function update(Request $request, Video $video)
+    public function update(Request $request, Video $video, EntityManager $entityManager, LoggerInterface $logger)
     {
-        $form = $this->createForm(VideoType::class, $video);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($video);
-            $entityManager->flush();
+        if ($video->getUser() === $this->getUser()) {
+            $user = $this->getUser();
 
-            $this->addFlash('notice', 'Your video is update!');
-            return $this->redirectToRoute('list_videos');
+            $form = $this->createForm(VideoType::class, $video);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($video);
+                $entityManager->flush();
+
+                $this->addFlash('notice', 'Your video is update!');
+                return $this->redirectToRoute('list_videos');
+            }
+            return $this->render('video/edit_video.html.twig', array(
+                'form' => $form->createView(),
+                'video' => $video,
+            ));
         }
-        return $this->render('video/edit_video.html.twig', array(
-            'form' => $form->createView(),
-            'video' => $video,
-        ));
     }
 }

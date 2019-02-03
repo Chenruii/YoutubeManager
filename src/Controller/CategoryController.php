@@ -20,7 +20,7 @@ class CategoryController extends AbstractController
      */
     public function index()
     {
-        return $this->render('category/index.html.twig', [
+        return $this->render('category/video.html.twig', [
             'controller_name' => 'CategoryController',
         ]);
     }
@@ -30,7 +30,7 @@ class CategoryController extends AbstractController
      */
     public function category(CategoryRepository $videoRepository)
     {
-        return $this->render( 'category/index.html.twig', [
+        return $this->render( 'category/video.html.twig', [
             'videos' => $videoRepository->findAll(),
 
         ]);
@@ -42,7 +42,7 @@ class CategoryController extends AbstractController
      */
     public function categories(CategoryRepository $videoRepository)
     {
-        return $this->render( 'category/index.html.twig', [
+        return $this->render( 'category/video.html.twig', [
             'videos' => $videoRepository->findAll(),
 
         ]);

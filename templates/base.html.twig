@@ -140,6 +140,10 @@
                 </div>
                 <div class="menu">
                     <ul>
+
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+
                         <li><a href="{{ path('home') }}">Home</a></li>
                         <li><a href="{{ path('list_videos') }}">Video</a></li>
                         <li><a href="{{ path('user') }}">User</a></li>
